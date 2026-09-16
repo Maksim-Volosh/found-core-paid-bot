@@ -246,31 +246,31 @@ A background **APScheduler** job inside the backend runs every 3 hours to expire
 The backend follows a Clean Architecture-inspired layering where dependencies only ever point **inward**, toward the domain:
 
 ```
-┌────────────────────────────────────────────────────────────────┐
+┌──────────────────────────────────────────────────────────────────┐
 │  api/                                                            │
-│  FastAPI routers · request/response schemas · entity↔schema     │
-│  mappers — no business logic, just translate HTTP ↔ use cases   │
+│  FastAPI routers · request/response schemas · entity↔schema      │
+│  mappers — no business logic, just translate HTTP ↔ use cases    │
 └───────────────────────────────┬──────────────────────────────────┘
-                                 │ calls
+                                │ calls
 ┌───────────────────────────────▼──────────────────────────────────┐
 │  application/                                                    │
 │  use_cases (business workflows) · services (shared workflow      │
 │  logic, e.g. "mark payment paid & extend subscription")          │
 └───────────────────────────────┬──────────────────────────────────┘
-                                 │ depends only on interfaces (ports)
+                                │ depends only on interfaces (ports)
 ┌───────────────────────────────▼──────────────────────────────────┐
-│  domain/                                                          │
+│  domain/                                                         │
 │  entities (dataclasses) · interfaces (IUserRepository,           │
-│  IPaymentProvider, IBotService, …) · exceptions — zero I/O        │
+│  IPaymentProvider, IBotService, …) · exceptions — zero I/O       │
 └───────────────────────────────▲──────────────────────────────────┘
-                                 │ implements the ports
+                                │ implements the ports
 ┌───────────────────────────────┴──────────────────────────────────┐
-│  infrastructure/                                                  │
-│  SQLAlchemy models & repositories · Stripe/CryptoBot providers ·  │
-│  the scheduler · the backend's own Telegram bot client            │
-└────────────────────────────────────────────────────────────────┘
-                                 ▲
-                                 │ wires a concrete graph per request
+│  infrastructure/                                                 │
+│  SQLAlchemy models & repositories · Stripe/CryptoBot providers   │
+│  the scheduler · the backend's own Telegram bot client           │
+└──────────────────────────────────────────────────────────────────┘
+                                ▲
+                                │ wires a concrete graph per request
                     core/composition/Container  (app/core/composition)
 ```
 
