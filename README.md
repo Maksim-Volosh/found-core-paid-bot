@@ -408,8 +408,8 @@ user  (PK user_id, unique telegram_id)
 ---
 
 ```bash
-git clone https://github.com/Maksim-Volosh/found-core-app.git
-cd found-core-app
+git clone https://github.com/Maksim-Volosh/found-core-paid-bot.git
+cd found-core-paid-bot
 ```
 
 #### ⚙️ Configure the backend environment
